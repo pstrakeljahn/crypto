@@ -15,6 +15,8 @@ class Test
         // $f = 2;
         $serviceInstance = new FetchCandleStickDataService;
         $serviceInstance->start();
+        // $service = new FetchBaseDataService();
+        // $service->start();
     }
 }
 

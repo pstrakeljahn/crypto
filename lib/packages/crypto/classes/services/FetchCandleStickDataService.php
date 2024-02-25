@@ -31,8 +31,8 @@ class FetchCandleStickDataService extends ServiceHelper
         } else {
             if (count($this->activeCryptos)) {
                 $crypto = array_shift($this->activeCryptos);
-                $response = $this->callApi($crypto);
                 $this->addRow("API called for " . $crypto->getName());
+                $response = $this->callApi($crypto);
                 $this->saveData($crypto, $response);
                 $this->addRow("-> saved");
             } else {

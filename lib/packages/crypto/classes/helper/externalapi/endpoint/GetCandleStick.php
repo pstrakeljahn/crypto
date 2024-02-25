@@ -2,6 +2,7 @@
 
 namespace PS\Packages\Crypto\Classes\Helper\ExternalApi\Endpoint;
 
+use Exception;
 use PS\Packages\Crypto\Classes\Helper\ExternalApi\Handler\CryptoApi;
 
 class GetCandleStick extends CryptoApi
@@ -72,6 +73,7 @@ class GetCandleStick extends CryptoApi
     public function getResponse()
     {
         $data = $this->execute();
+        if (isset($data['message'])) throw new Exception("Instrumentname unknown");
         return $data['result']['data'];
     }
 }
