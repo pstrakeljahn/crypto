@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /crypto
+
+RewriteRule ^(api\/v1\/.*)$ api.php [QSA,L]
+RewriteRule ^(.*)$ api.php [QSA,L]

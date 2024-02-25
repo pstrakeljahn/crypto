@@ -1,0 +1,11 @@
+
+    public function get###VALUE###()
+	{
+		return $this->{'###value###'};
+	}
+
+	public function set###VALUE###($val): self
+	{
+		$this->{'###value###'} = $val;
+		return $this;
+	}

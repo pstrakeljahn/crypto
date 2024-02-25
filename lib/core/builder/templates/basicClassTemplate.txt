@@ -1,0 +1,40 @@
+<?php
+
+namespace PS\Build;
+
+use Config;
+use Exception;
+use ###namespace###;
+use PS\Core\Database\DatabaseHelper;
+
+class ###className###Basic extends DatabaseHelper
+{
+###definitionOfAttr###
+    const REQUIRED_VALUES = [###requiredValues###];
+
+    public function __construct()
+    {
+		$classIndex = require(Config::BASE_PATH . 'lib/build/_index.php');
+		$className = self::getClassName();
+		$namespace = isset($classIndex[$className]) ? $classIndex[$className] : "";
+		$explodedString = explode("\\", $namespace);
+		if (!count($explodedString)) {
+			throw new Exception('Cannot instantiate class! Entity file missing.');
+		};
+
+		$entityPath = Config::BASE_PATH . 'lib/packages/' . strtolower($explodedString[2]) . '/database/' . $explodedString[4] . '.json';
+		
+		if (!file_exists($entityPath)) {
+			throw new Exception('Cannot instantiate class! Entity file missing.');
+		}
+		$entity = json_decode(file_get_contents($entityPath), true)['defintion'];
+        // ID IS HARDCODED!
+        $this->{'ID'} = null;
+        foreach ($entity as $column) {
+            $this->{$column['name']} = null;
+        }
+    }
+    
+	public static function getInstance() {
+		return new ###className###();
+	}

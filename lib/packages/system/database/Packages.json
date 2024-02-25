@@ -1,0 +1,19 @@
+{
+  "name": "Packages",
+  "tablename": "packages",
+  "defintion": [
+    {
+      "name": "name",
+      "type": "varchar",
+      "length": 255,
+      "required": true,
+      "unique": true
+    },
+    {
+      "name": "version",
+      "type": "decimal",
+      "required": true,
+      "range": "5,2"
+    }
+  ]
+}

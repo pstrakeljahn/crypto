@@ -1,0 +1,79 @@
+{
+  "name": "User",
+  "tablename": "users",
+  "defintion": [
+    {
+      "name": "username",
+      "type": "varchar",
+      "length": 255,
+      "required": true,
+      "unique": true
+    },
+    {
+      "name": "password",
+      "type": "varchar",
+      "length": 255,
+      "required": true,
+      "apiReadable": false
+    },
+    {
+      "name": "mail",
+      "type": "varchar",
+      "length": 255,
+      "required": true,
+      "unique": true
+    },
+    {
+      "name": "firstname",
+      "type": "varchar",
+      "length": 255,
+      "required": true
+    },
+    {
+      "name": "surname",
+      "type": "varchar",
+      "length": 255,
+      "required": true
+    },
+    {
+      "name": "dateofbirth",
+      "type": "datetime"
+    },
+    {
+      "name": "street",
+      "type": "varchar",
+      "length": 255,
+      "required": true
+    },
+    {
+      "name": "number",
+      "type": "varchar",
+      "length": 255,
+      "required": true
+    },
+    {
+      "name": "zip",
+      "type": "varchar",
+      "length": 255,
+      "required": true
+    },
+    {
+      "name": "city",
+      "type": "varchar",
+      "length": 255,
+      "required": true
+    },
+    {
+      "name": "phone",
+      "type": "varchar",
+      "length": 255,
+      "required": true
+    },
+    {
+      "name": "role",
+      "type": "enum",
+      "values": ["admin", "user"],
+      "required": true
+    }
+  ]
+}
