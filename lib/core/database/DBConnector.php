@@ -70,13 +70,13 @@ class DBConnector
 
 		$this->stmt = $this->dbh->prepare($query);
 		if (!is_null($params)) {
-			$arrValues = array();
-			$i = 0;
-			foreach ($params as $param) {
-				$arrValues[range('A', 'Z')[$i]] = $param;
-				$i++;
-			}
-			$this->stmt->execute($arrValues);
+			// $arrValues = array();
+			// $i = 0;
+			// foreach ($params as $param) {
+			// 	$arrValues[range('A', 'Z')[$i]] = $param;
+			// 	$i++;
+			// }
+			$this->stmt->execute($params);
 		}
 	}
 

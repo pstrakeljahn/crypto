@@ -1,0 +1,13 @@
+{
+  "name": "Crypto",
+  "tablename": "crypto_crypto",
+  "defintion": [
+    {
+      "name": "name",
+      "type": "varchar",
+      "length": 255,
+      "required": true,
+      "unique": true
+    }
+  ]
+}

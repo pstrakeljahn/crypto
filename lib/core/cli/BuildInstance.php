@@ -5,7 +5,7 @@ namespace PS\Core\Cli;
 use Config;
 use PS\Core\Builder\ClassBuilder;
 use PS\Core\Logging\Logging;
-use PS\Packages\System\Classes\Packages;
+use PS\Packages\System\Classes\Package;
 use PS\Packages\System\Classes\User;
 
 class BuildInstance
@@ -44,9 +44,6 @@ class BuildInstance
                 $entity = json_decode(file_get_contents($entityFile), true);
                 $this->logInstance->add(Logging::LOG_TYPE_BUILD, 'Processing ' . $entity['name'], false, true);
                 $classBuilder->buildClass($entity, $package . '/info.php', $this->validate, $this->onlyAdding, $this->force);
-
-                // Update Packages
-                $this->updatePackages(require($package . '/info.php'));
             }
         }
         $classBuilder->fetchKeyConstraints();
@@ -59,6 +56,10 @@ class BuildInstance
         // Create Admin user
         $this->createAdminUser();
 
+        $packages = glob(Config::BASE_PATH . 'lib/packages/*');
+        foreach ($packages as $package) {
+            $this->updatePackages(require($package . '/info.php'));
+        }
 
         echo "\e[32mDone!\033[0m\n";
     }
@@ -142,14 +143,11 @@ class BuildInstance
 
     private function updatePackages(array $package)
     {
-        // var_dump($package['packageName']);
-        $package = User::getInstance()->add(User::USERNAME, 'admin')->add(User::MAIL, 'admin@admin.de')->select();
-        var_dump($package);
-        die();
-        if (count($package)) {
-            $package[0]->setName($package['packageName'])->setVersion($package['version'])->save();
+        $arrPackages = (new Package)->getInstance()->add(Package::NAME, $package['packageName'])->select();
+        if (count($arrPackages)) {
+            $arrPackages[0]->setVersion($package['version'])->save();
         } else {
-            (new Packages)->setName($package['packageName'])->setVersion($package['version'])->save();
+            (new Package)->setName($package['packageName'])->setVersion($package['version'])->save();
         }
     }
 }

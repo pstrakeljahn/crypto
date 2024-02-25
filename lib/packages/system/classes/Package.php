@@ -2,13 +2,13 @@
 
 namespace PS\Packages\System\Classes;
 
-use PS\Build\PackagesBasic;
+use PS\Build\PackageBasic;
 
 /*
 *   Logic can be implemented here that is not overwritten
 */
 
-class Packages extends PackagesBasic
+class Package extends PackageBasic
 {
     
 }

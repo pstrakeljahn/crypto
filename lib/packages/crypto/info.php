@@ -1,6 +1,6 @@
 <?php
 
 return array(
-    "packageName" => "gans",
+    "packageName" => "crypto",
     "version" => 0.1
 );

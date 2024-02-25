@@ -4,18 +4,16 @@ namespace PS\Core\Database;
 
 use Exception;
 use PS\Core\Logging\Logging;
-use ReflectionClass;
-use ReflectionProperty;
 
 class DatabaseHelper extends Criteria
 {
     const IS_NOT_NULL = 'isNotNull';
     const IS_NULL = 'isNull';
 
-    private ?string $searchString;
-    private string $orderBy;
-    private string $limit;
-    private array $searchParams = array();
+    // private string $searchString;
+    // private string $orderBy;
+    // private string $limit;
+    // private array $searchParams = array();
 
     public function getByPK(int $id)
     {
@@ -38,17 +36,10 @@ class DatabaseHelper extends Criteria
             foreach ($result as $row) {
                 $instanceName = self::getClassName(true);
                 $selfInstance = new $instanceName();
-                $selfInstance->unsetParams();
-                // $reflectionClass = new ReflectionClass($instanceName);
-                // $properties = $reflectionClass->getProperties(ReflectionProperty::IS_PRIVATE);
-                // var_dump($instanceName);
-                // die();
                 foreach ($selfInstance as $key => &$value) {
-                    // if (in_array($key, $properties)) continue;
                     // if (ctype_digit((string)$row[$key])) {
                     //     $row[$key] = (int)$row[$key];
                     // }
-                    if (!isset($row[$key])) continue;
                     $value = $row[$key];
                 }
                 $output[] = $selfInstance;
@@ -61,9 +52,7 @@ class DatabaseHelper extends Criteria
     {
         switch ($criteria) {
             case null:
-
-                $param = range('A', 'Z')[count($this->searchParams)];
-                $tmpQuery = 'WHERE ' . $column . ' = :' . $param . '';
+                $tmpQuery = 'WHERE ' . $column . ' = :' . $value . '';
                 break;
             case Criteria::ISNOTNULL:
                 $tmpQuery = 'WHERE ' . $column . ' IS NOT NULL';
@@ -79,7 +68,7 @@ class DatabaseHelper extends Criteria
                 break;
         }
         if (!is_array($value) && is_null($criteria)) {
-            $this->searchParams[] = $value;
+            $this->searchParams[':' . $value] = $value;
         }
 
         if (!isset($this->searchString)) {
@@ -104,7 +93,7 @@ class DatabaseHelper extends Criteria
         return $this;
     }
 
-    public function select(): ?array
+    public function select(): array
     {
         $instanceName = self::getClassName(true);
         $table = $instanceName::TABLENAME;
@@ -120,18 +109,11 @@ class DatabaseHelper extends Criteria
         }
         $db = new DBConnector();
         $db->query($query, isset($this->searchParams) ? $this->searchParams : null);
-        return $db->resultSet();
-        // $this->searchString = null;
-        // $this->unsetParams();
-        // return $this->prepareResult($db->resultSet());
-    }
-
-    private function unsetParams()
-    {
         unset($this->orderBy);
         unset($this->searchString);
         unset($this->limit);
         unset($this->searchParams);
+        return $this->prepareResult($db->resultSet());
     }
 
     public function save()
@@ -174,7 +156,9 @@ class DatabaseHelper extends Criteria
             }
             // update entry
             if (!is_null($this->getID())) {
-                $query = 'UPDATE ' . strtolower(self::getClassName()) . 's SET';
+                $instanceName = self::getClassName(true);
+                $table = $instanceName::TABLENAME;
+                $query = 'UPDATE ' . $table . ' SET';
                 $valueString = '';
                 $condition = '';
                 foreach ($this as $key => $value) {
