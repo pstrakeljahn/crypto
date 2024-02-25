@@ -1,0 +1,53 @@
+{
+  "name": "CryptoDatapoints",
+  "tablename": "crypto_crypto_data_points",
+  "defintion": [
+    {
+      "name": "CryptoID",
+      "type": "int",
+      "length": 11,
+      "reference": "Crypto",
+      "ref_table": "crypto_crypto",
+      "ref_column": "ID",
+      "ref_delete": "CASCADE",
+      "ref_update": "CASCADE",
+      "required": true
+    },
+    {
+      "name": "open",
+      "type": "decimal",
+      "required": true,
+      "range": "20,10"
+    },
+    {
+      "name": "high",
+      "type": "decimal",
+      "required": true,
+      "range": "20,10"
+    },
+    {
+      "name": "low",
+      "type": "decimal",
+      "required": true,
+      "range": "20,10"
+    },
+    {
+      "name": "close",
+      "type": "decimal",
+      "required": true,
+      "range": "20,10"
+    },
+    {
+      "name": "volume",
+      "type": "decimal",
+      "required": true,
+      "range": "20,10"
+    },
+    {
+      "name": "timestamp",
+      "type": "int",
+      "length": 10,
+      "required": true
+    }
+  ]
+}

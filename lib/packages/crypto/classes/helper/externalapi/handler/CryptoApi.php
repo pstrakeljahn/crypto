@@ -13,6 +13,7 @@ abstract class CryptoApi
     protected string $methode = 'GET';
     protected array $additonalHeader = [];
     private ?string $requestUrl = null;
+    protected array $requestParams = [];
 
     public function setEndpoint($endpoint)
     {
@@ -35,9 +36,17 @@ abstract class CryptoApi
     private function curlRequest()
     {
         $curl = curl_init();
+        $requestUrl = $this->requestUrl;
+        if (count($this->requestParams)) {
+            $requestUrl .= "?";
+            foreach ($this->requestParams as $property => $value) {
+                $parmas[] = sprintf("%s=%s", $property, $value);
+            }
+            $requestUrl .= implode("&", $parmas);
+        }
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->requestUrl,
+            CURLOPT_URL => $requestUrl,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
