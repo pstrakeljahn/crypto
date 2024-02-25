@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 preg_match('/^.*(api\/v1\/obj\/)(.*)$/', $uri, $match);
 preg_match('/^.*(api\/v1\/mod\/)(.*)$/', $uri, $mod);
 preg_match('/.*(build.php)/', $uri, $build);
+preg_match('/.*(test.php)/', $uri, $test);
 preg_match('/.*(cronjob.php)/', $uri, $cronjob);
 preg_match('/^.*(api\/v1\/login)(.*)$/', $uri, $login);
 
@@ -43,6 +44,8 @@ if (count($match)) {
     return;
 } elseif (count($build)) {
     return include('./build.php');
+} elseif (count($test)) {
+    return include('./test.php');
 } else {
     return;
     // @todo Has to be reworked

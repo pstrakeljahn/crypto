@@ -13,6 +13,7 @@ class DBConnector
 	private $db_name = Config::DATABASE;
 	private $db_user = Config::USERNAME;
 	private	$db_pass = Config::PASSWORD;
+	private	$db_port = Config::PORT;
 
 	private $dbh;
 	private $error;
@@ -21,7 +22,7 @@ class DBConnector
 
 	public function __construct()
 	{
-		$dsn = 'mysql:host=' . $this->db_host . ';dbname=' . $this->db_name;
+		$dsn = 'mysql:host=' . $this->db_host . ';port=' . $this->db_host . ';dbname=' . $this->db_name;
 		$db_options = array(
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 		);
@@ -68,15 +69,18 @@ class DBConnector
 			throw new \Exception('No connection to database!');
 		}
 
-		$this->stmt = $this->dbh->prepare($query);
+		$arrValues = array();
 		if (!is_null($params)) {
-			// $arrValues = array();
-			// $i = 0;
-			// foreach ($params as $param) {
-			// 	$arrValues[range('A', 'Z')[$i]] = $param;
-			// 	$i++;
-			// }
-			$this->stmt->execute($params);
+			foreach ($params as $key => $value) {
+				$hash = hash("md5", $value);
+				$arrValues[$hash] = $value;
+				$query = str_replace($key, ":" . $hash, $query);
+			}
+		}
+
+		$this->stmt = $this->dbh->prepare($query);
+		if (count($arrValues)) {
+			$this->stmt->execute($arrValues);
 		}
 	}
 

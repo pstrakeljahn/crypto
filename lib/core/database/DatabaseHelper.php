@@ -148,7 +148,6 @@ class DatabaseHelper extends Criteria
                     }
                 }
                 $query = substr($query, 0, -2) . ') VALUES (' . substr($valueString, 0, -2) . ');';
-
                 $db->query($query);
                 $db->execute();
 

@@ -8,6 +8,79 @@
       "length": 255,
       "required": true,
       "unique": true
+    },
+    {
+      "name": "active",
+      "type": "bool",
+      "default": false,
+      "required": true
+    },
+    {
+      "name": "symbol",
+      "type": "varchar",
+      "length": 255,
+      "notnull": true,
+      "required": true
+    },
+    {
+      "name": "instType",
+      "type": "varchar",
+      "length": 255,
+      "notnull": true,
+      "required": true
+    },
+    {
+      "name": "baseCcy",
+      "type": "varchar",
+      "length": 255,
+      "notnull": true,
+      "required": true
+    },
+    {
+      "name": "quoteCcy",
+      "type": "varchar",
+      "length": 255,
+      "notnull": true,
+      "required": true
+    },
+    {
+      "name": "quoteDecimals",
+      "type": "int",
+      "length": 10,
+      "required": true
+    },
+    {
+      "name": "quantityDecimals",
+      "type": "int",
+      "length": 10,
+      "required": true
+    },
+    {
+      "name": "priceTickSize",
+      "type": "varchar",
+      "length": 255,
+      "required": true,
+      "notnull": true
+    },
+    {
+      "name": "qtyTickSize",
+      "type": "varchar",
+      "length": 255,
+      "required": true,
+      "notnull": true
+    },
+    {
+      "name": "maxLeverage",
+      "type": "varchar",
+      "length": 255,
+      "required": true,
+      "notnull": true
+    },
+    {
+      "name": "tradable",
+      "type": "bool",
+      "default": false,
+      "required": true
     }
   ]
 }
