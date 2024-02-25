@@ -9,7 +9,7 @@ use PS\Packages\Crypto\Classes\Helper\ExternalApi\Endpoint\GetInstruments;
 class FetchBaseDataService extends ServiceHelper
 {
 
-    private $externalData = null;
+    private $externalData = [];
     private $waitingSeconds = 86400;
 
 
@@ -19,10 +19,10 @@ class FetchBaseDataService extends ServiceHelper
 
     public function executeTick()
     {
-        if ($this->getStartTime() - time() < $this->waitingSeconds && $this->getTick() > 0) {
+        if ($this->getStartTime() - time() < $this->waitingSeconds && $this->getTick() > 1 && !count($this->externalData)) {
             $this->addRow("New data will be fetched every 24h");
         } else {
-            if (is_null($this->externalData)) {
+            if (!count($this->externalData)) {
                 $this->addRow("Fetching external data...");
                 $this->addBorder(false, true);
                 $this->loadData();

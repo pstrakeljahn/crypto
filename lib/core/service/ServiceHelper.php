@@ -40,7 +40,7 @@ abstract class ServiceHelper
 
     protected final function getTick()
     {
-        return $this->tick;
+        return $this->ticks;
     }
 
     public function start()
