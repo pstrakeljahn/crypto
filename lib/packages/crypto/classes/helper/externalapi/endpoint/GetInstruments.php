@@ -9,11 +9,14 @@ class GetInstruments extends CryptoApi
     public function __construct()
     {
         $this->setEndpoint('get-instruments');
+        $this->setMethode('GET');
+        $this->setContentType('ContentType: application/json');
+        parent::__construct();
     }
 
     public function getResponse()
     {
-        $data = $this->execute();
+        $data = json_decode($this->getPayload(), true);
         return $data['result']['data'];
     }
 }

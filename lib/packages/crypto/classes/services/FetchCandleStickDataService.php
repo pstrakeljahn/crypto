@@ -79,7 +79,7 @@ class FetchCandleStickDataService extends ServiceHelper
     {
         // @todo Improve it! Otherwise database might be killed by this in the furture!
         foreach ($data as $entry) {
-            $dbResult = CryptoDatapoint::getInstance()->add(CryptoDatapoint::ID, $crypto->getID())->add(CryptoDatapoint::TIMESTAMP, $entry['t'])->select();
+            $dbResult = CryptoDatapoint::getInstance()->add(CryptoDatapoint::CRYPTOID, $crypto->getID())->add(CryptoDatapoint::TIMESTAMP, $entry['t'])->select();
             if (count($dbResult)) {
                 $dataPoint = $dbResult[0];
             } else {

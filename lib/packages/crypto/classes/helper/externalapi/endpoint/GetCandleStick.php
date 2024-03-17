@@ -38,6 +38,9 @@ class GetCandleStick extends CryptoApi
     public function __construct()
     {
         $this->setEndpoint('get-candlestick');
+        $this->setMethode('GET');
+        $this->setContentType('ContentType: application/json');
+        parent::__construct();
     }
 
     public function setInstrumentName(string $val): self
@@ -72,7 +75,7 @@ class GetCandleStick extends CryptoApi
 
     public function getResponse()
     {
-        $data = $this->execute();
+        $data = json_decode($this->getPayload(), true);
         if (isset($data['message'])) throw new Exception("Instrumentname unknown");
         return $data['result']['data'];
     }
