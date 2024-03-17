@@ -54,17 +54,25 @@ class FetchCandleStickDataService extends ServiceHelper
             ->orderBy(CryptoDatapoint::TIMESTAMP, 'DESC')
             ->limit(1)
             ->select();
-        return (new GetCandleStick)
-            ->setInstrumentName($crypto->getName())
-            ->setCount(100)
-            ->setTimeframe($this->calcPeriod($lastDatapoint))
-            ->getResponse();
+        $period = $this->calcPeriod($lastDatapoint);
+        $arrIntervals = GetCandleStick::ARRAY_PERIOD;
+        asort($arrIntervals);
+        $dataPoints = [];
+        foreach ($arrIntervals as $key => $duration) {
+            $dataPoints = [...(new GetCandleStick)
+                ->setInstrumentName($crypto->getName())
+                ->setCount(100)
+                ->setTimeframe($key)
+                ->getResponse(), ...$dataPoints];
+            if ($key === $period) break;
+        }
+        return $dataPoints;
     }
 
     private function calcPeriod(array $datapoint)
     {
         if (!count($datapoint)) return GetCandleStick::PERIOD_ONE_MONTH;
-        $lastSync = $datapoint[0]->getTimestamp();
+        $lastSync = time() - ($datapoint[0]->getTimestamp() / 1000);
         $arrIntervals = GetCandleStick::ARRAY_PERIOD;
         asort($arrIntervals);
         foreach ($arrIntervals as $key => $duration) {
