@@ -1,5 +1,7 @@
 <?php
-require 'lib/core/vendor/autoload.php';
+if (file_exists('lib/core/vendor/autoload.php')) {
+	require 'lib/core/vendor/autoload.php';
+}
 
 spl_autoload_register(function ($class) {
 
