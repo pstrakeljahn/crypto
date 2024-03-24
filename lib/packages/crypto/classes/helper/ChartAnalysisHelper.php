@@ -4,6 +4,7 @@ namespace PS\Packages\Crypto\Classes\Helper;
 
 use Kensho\Chart\Chart\Chart;
 use Kensho\Chart\Chart\ChartFactory;
+use PS\Core\Database\Criteria;
 use PS\Packages\Crypto\Classes\Crypto;
 use PS\Packages\Crypto\Classes\CryptoDatapoint;
 
@@ -11,9 +12,14 @@ class ChartAnalysisHelper
 {
     public static function analyseCrypto(Crypto $crypto, int $period)
     {
+        if ($period < 2) {
+            echo "Invalid period. Period must be higher than `1` for SMA calculation";
+            return;
+        }
         $crypto->getID();
         $dataPoints = CryptoDatapoint::getInstance()
             ->add(CryptoDatapoint::CRYPTOID, $crypto->getID())
+            ->add(CryptoDatapoint::TIMESTAMP, sprintf("%s000", strtotime("-$period day", time())), Criteria::GREATER_EQUAL)
             ->orderBy(CryptoDatapoint::TIMESTAMP, 'ASC')
             ->select();
 

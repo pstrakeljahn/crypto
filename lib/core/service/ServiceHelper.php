@@ -8,7 +8,7 @@ abstract class ServiceHelper
     abstract function define();
 
     private const ROW_LENGTH = 100;
-    private const TICK_CURRATION_IN_SECONDS = 1;
+    private const TICK_DURRATION_IN_SECONDS = 1;
 
     private ?int $startTimestamp = null;
     private ?int $currentTimestamp = null;
@@ -51,7 +51,7 @@ abstract class ServiceHelper
         // register_shutdown_function(array($this, 'customShutdown'));
         while ($this->run === true) {
             $this->print();
-            sleep($this->tickDuration ?? self::TICK_CURRATION_IN_SECONDS);
+            sleep($this->tickDuration ?? self::TICK_DURRATION_IN_SECONDS);
         }
     }
 
@@ -63,7 +63,7 @@ abstract class ServiceHelper
         $this->addRow("ServiceInstance: " . $this->callesClass);
         $this->currentTimestamp = time();
         $this->ticks++;
-        $this->addRow(sprintf("Runtime: %s (Ticks: %s // Sleeptime: %s)", $this->formatSeconds($this->currentTimestamp - $this->startTimestamp), $this->ticks, $this->formatSeconds($this->tickDuration ?? self::TICK_CURRATION_IN_SECONDS)));
+        $this->addRow(sprintf("Runtime: %s (Ticks: %s // Sleeptime: %s)", $this->formatSeconds($this->currentTimestamp - $this->startTimestamp), $this->ticks, $this->formatSeconds($this->tickDuration ?? self::TICK_DURRATION_IN_SECONDS)));
         $this->addBorder();
         try {
             $this->executeTick();

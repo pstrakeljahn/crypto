@@ -60,6 +60,18 @@ class DatabaseHelper extends Criteria
             case Criteria::ISNULL:
                 $tmpQuery = 'WHERE ' . $column . ' IS NULL';
                 break;
+            case Criteria::GREATER_EQUAL:
+                $tmpQuery = 'WHERE ' . $column . ' >= ' . $value;
+                break;
+            case Criteria::GREATER:
+                $tmpQuery = 'WHERE ' . $column . ' > ' . $value;
+                break;
+            case Criteria::LOWER_EQUAL:
+                $tmpQuery = 'WHERE ' . $column . ' <= ' . $value;
+                break;
+            case Criteria::LOWER:
+                $tmpQuery = 'WHERE ' . $column . ' < ' . $value;
+                break;
             case Criteria::IN:
                 if (!is_array($value)) {
                     throw new \Exception('Value has to be array if you want to use IN');
