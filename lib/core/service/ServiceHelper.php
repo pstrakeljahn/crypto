@@ -17,6 +17,7 @@ abstract class ServiceHelper
     private int $ticks = 0;
     private ?float $tickDuration = null;
     private bool $skipNextBorder = false;
+    protected bool $skipLastBorder = false;
 
     private bool $run = true;
 
@@ -71,7 +72,9 @@ abstract class ServiceHelper
             $this->addRow("An Error occured:");
             $this->addRow($e->getMessage());
         }
-        $this->addBorder();
+        if (!$this->skipLastBorder) {
+            $this->addBorder();
+        }
     }
 
     protected final function addBorder(bool $addNewline = false, bool $skipNext = false)

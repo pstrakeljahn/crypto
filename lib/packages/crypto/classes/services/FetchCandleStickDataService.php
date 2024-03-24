@@ -9,19 +9,19 @@ use PS\Packages\Crypto\Classes\Helper\ExternalApi\Endpoint\GetCandleStick;
 
 class FetchCandleStickDataService extends ServiceHelper
 {
-
     const TIMEFRAME_RECHECK_ACTIVE = 10;
 
     private array $activeCryptos = [];
     private int $updateCount = 0;
 
-
     public function define()
     {
+        $this->skipLastBorder = true;
     }
 
     public function executeTick()
     {
+        $request = false;
         if (time() - $this->getStartTime() > $this->updateCount * self::TIMEFRAME_RECHECK_ACTIVE && !count($this->activeCryptos)) {
             $this->getActiveCurrencies();
             $this->addRow("Active Cryptos loaded.");
@@ -29,15 +29,19 @@ class FetchCandleStickDataService extends ServiceHelper
                 $this->addRow("No active cryptos.");
             }
         } else {
-            if (count($this->activeCryptos)) {
+            if (!count($this->activeCryptos)) {
+                $this->addRow("Waiting...");
+            } else {
                 $crypto = array_shift($this->activeCryptos);
                 $this->addRow("API called for " . $crypto->getName());
-                $response = $this->callApi($crypto);
-                $this->saveData($crypto, $response);
-                $this->addRow("-> saved");
-            } else {
-                $this->addRow("Waiting...");
+                $request = true;
+                $this->addRow("-> saving...");
             }
+        }
+        $this->addBorder();
+        if ($request) {
+            $response = $this->callApi($crypto);
+            $this->saveData($crypto, $response);
         }
     }
 
